@@ -1,15 +1,15 @@
 package entities;
 
-public final class Consumer {
-//    TODO
-    private int id;
+import utils.Contract;
 
-    private double initialBudget;
-
+public final class Consumer extends Entity {
     private double monthlyIncome;
 
-    // place holder
-    private String contract;
+    private Contract contract;
+
+    private boolean isInDebt;
+
+    private boolean isBankrupt;
 
     public Consumer() {
 
@@ -18,25 +18,9 @@ public final class Consumer {
     public Consumer(final int id,
                     final double initialBudget,
                     final double monthlyIncome) {
-        this.id = id;
-        this.initialBudget = initialBudget;
+        super(id, initialBudget);
+
         this.monthlyIncome = monthlyIncome;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
-    }
-
-    public double getInitialBudget() {
-        return initialBudget;
-    }
-
-    public void setInitialBudget(final double initialBudget) {
-        this.initialBudget = initialBudget;
     }
 
     public double getMonthlyIncome() {
@@ -47,12 +31,27 @@ public final class Consumer {
         this.monthlyIncome = monthlyIncome;
     }
 
-    @Override
-    public String toString() {
-        return "Consumer{"
-                + "id=" + id
-                + ", initialBudget=" + initialBudget
-                + ", monthlyIncome=" + monthlyIncome
-                + ", contract='" + contract + '\'' + '}';
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(final Contract contract) {
+        this.contract = contract;
+    }
+
+    public boolean isInDebt() {
+        return isInDebt;
+    }
+
+    public void setInDebt(final boolean inDebt) {
+        isInDebt = inDebt;
+    }
+
+    public boolean isBankrupt() {
+        return isBankrupt;
+    }
+
+    public void setBankrupt(final boolean bankrupt) {
+        isBankrupt = bankrupt;
     }
 }

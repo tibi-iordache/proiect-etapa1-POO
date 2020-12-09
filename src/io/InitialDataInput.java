@@ -1,38 +1,35 @@
 package io;
 
-import entities.Consumer;
-import entities.Distributor;
-
 import java.util.List;
 
 public final class InitialDataInput {
-    private List<Consumer> consumers;
+    private List<ConsumerInput> consumers;
 
-    private List<Distributor> distributors;
+    private List<DistributorInput> distributors;
 
     public InitialDataInput() {
 
     }
 
-    public InitialDataInput(final List<Consumer> consumers,
-                            final List<Distributor> distributors) {
+    public InitialDataInput(final List<ConsumerInput> consumers,
+                            final List<DistributorInput> distributors) {
         this.consumers = consumers;
         this.distributors = distributors;
     }
 
-    public List<Consumer> getConsumers() {
+    public List<ConsumerInput> getConsumers() {
         return consumers;
     }
 
-    public void setConsumers(final List<Consumer> consumers) {
+    public void setConsumers(final List<ConsumerInput> consumers) {
         this.consumers = consumers;
     }
 
-    public List<Distributor> getDistributors() {
+    public List<DistributorInput> getDistributors() {
         return distributors;
     }
 
-    public void setDistributors(final List<Distributor> distributors) {
+    public void setDistributors(final List<DistributorInput> distributors) {
         this.distributors = distributors;
     }
 }

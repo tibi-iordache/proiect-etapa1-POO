@@ -2,18 +2,18 @@ package io;
 
 import java.util.List;
 
-public final class Reader {
+public final class Input {
     private int numberOfTurns;
 
     private InitialDataInput initialData;
 
     private List<MonthlyUpdatesInput> monthlyUpdates;
 
-    public Reader() {
+    public Input() {
 
     }
 
-    public Reader(final int numberOfTurns,
+    public Input(final int numberOfTurns,
                   final InitialDataInput initialData,
                   final List<MonthlyUpdatesInput> monthlyUpdates) {
         this.numberOfTurns = numberOfTurns;
@@ -41,7 +41,7 @@ public final class Reader {
         return monthlyUpdates;
     }
 
-    public void setMonthlyUpdates(List<MonthlyUpdatesInput> monthlyUpdates) {
+    public void setMonthlyUpdates(final List<MonthlyUpdatesInput> monthlyUpdates) {
         this.monthlyUpdates = monthlyUpdates;
     }
 }

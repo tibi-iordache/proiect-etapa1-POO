@@ -1,11 +1,9 @@
 package io;
 
-import entities.Consumer;
-
 import java.util.List;
 
 public final class MonthlyUpdatesInput {
-    private List<Consumer> newConsumers;
+    private List<ConsumerInput> newConsumers;
 
     private List<CostChangesInput> costsChanges;
 
@@ -13,17 +11,17 @@ public final class MonthlyUpdatesInput {
 
     }
 
-    public MonthlyUpdatesInput(final List<Consumer> newConsumers,
+    public MonthlyUpdatesInput(final List<ConsumerInput> newConsumers,
                                       final List<CostChangesInput> costsChanges) {
         this.newConsumers = newConsumers;
         this.costsChanges = costsChanges;
     }
 
-    public List<Consumer> getNewConsumers() {
+    public List<ConsumerInput> getNewConsumers() {
         return newConsumers;
     }
 
-    public void setNewConsumers(final List<Consumer> newConsumers) {
+    public void setNewConsumers(final List<ConsumerInput> newConsumers) {
         this.newConsumers = newConsumers;
     }
 

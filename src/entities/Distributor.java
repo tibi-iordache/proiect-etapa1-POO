@@ -1,39 +1,36 @@
 package entities;
 
-public final class Distributor {
-//    TODO
-    private int id;
+import utils.Contract;
 
+import java.util.ArrayList;
+
+public final class Distributor extends Entity {
     private int contractLength;
 
-    private double initialBudget;
+    private double infrastructureCost;
 
-    private double initialInfrastructureCost;
+    private double productionCost;
 
-    private double initialProductionCost;
+    private double contractPrice;
+
+    private ArrayList<Contract> contractList;
+
+    private boolean isBankrupt;
 
     public Distributor() {
-
     }
 
     public Distributor(final int id,
                        final int contractLength,
                        final double initialBudget,
-                       final double initialInfrastructureCost,
-                       final double initialProductionCost) {
-        this.id = id;
+                       final double infrastructureCost,
+                       final double productionCost) {
+        super(id, initialBudget);
+
         this.contractLength = contractLength;
-        this.initialBudget = initialBudget;
-        this.initialInfrastructureCost = initialInfrastructureCost;
-        this.initialProductionCost = initialProductionCost;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(final int id) {
-        this.id = id;
+        this.infrastructureCost = infrastructureCost;
+        this.productionCost = productionCost;
+        contractList = new ArrayList<Contract>();
     }
 
     public int getContractLength() {
@@ -44,38 +41,43 @@ public final class Distributor {
         this.contractLength = contractLength;
     }
 
-    public double getInitialBudget() {
-        return initialBudget;
+    public double getInfrastructureCost() {
+        return infrastructureCost;
     }
 
-    public void setInitialBudget(final double initialBudget) {
-        this.initialBudget = initialBudget;
+    public void setInfrastructureCost(final double infrastructureCost) {
+        this.infrastructureCost = infrastructureCost;
     }
 
-    public double getInitialInfrastructureCost() {
-        return initialInfrastructureCost;
+    public double getProductionCost() {
+        return productionCost;
     }
 
-    public void setInitialInfrastructureCost(final double initialInfrastructureCost) {
-        this.initialInfrastructureCost = initialInfrastructureCost;
+    public void setProductionCost(final double productionCost) {
+        this.productionCost = productionCost;
     }
 
-    public double getInitialProductionCost() {
-        return initialProductionCost;
+    public double getContractPrice() {
+        return contractPrice;
     }
 
-    public void setInitialProductionCost(final double initialProductionCost) {
-        this.initialProductionCost = initialProductionCost;
+    public void setContractPrice(final double contractPrice) {
+        this.contractPrice = contractPrice;
     }
 
-    @Override
-    public String toString() {
-        return "Distributor{"
-                + "id=" + id
-                + ", contractLength=" + contractLength
-                + ", initialBudget=" + initialBudget
-                + ", initialInfrastructureCost=" + initialInfrastructureCost
-                + ", initialProductionCost=" + initialProductionCost
-                + '}';
+    public ArrayList<Contract> getContractList() {
+        return contractList;
+    }
+
+    public void setContractList(final ArrayList<Contract> contractList) {
+        this.contractList = contractList;
+    }
+
+    public boolean isBankrupt() {
+        return isBankrupt;
+    }
+
+    public void setBankrupt(final boolean bankrupt) {
+        isBankrupt = bankrupt;
     }
 }
