@@ -37,7 +37,7 @@ public final class Main {
         for (Consumer it : consumers) {
             ConsumerOutput c = new ConsumerOutput(it.getId(),
                                                 it.isBankrupt(),
-                                                it.getBudget());
+                                                (int)it.getBudget());
 
             consumerOutputs.add(c);
         }
@@ -50,7 +50,7 @@ public final class Main {
             if (it.getContractList() != null) {
                 for (Contract contract : it.getContractList()) {
                     ContractOutput con = new ContractOutput(contract.getConsumerId(),
-                                                            contract.getPrice(),
+                                                            (int) contract.getPrice(),
                                                             contract.getRemainedContractMonths());
 
                     c.add(con);
@@ -58,7 +58,7 @@ public final class Main {
             }
 
             DistributorOutput d = new DistributorOutput(it.getId(),
-                                                        it.getBudget(),
+                                                        (int)it.getBudget(),
                                                         it.isBankrupt(),
                                                         c);
 

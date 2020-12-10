@@ -3,7 +3,7 @@ package io;
 public final class ContractOutput {
     private int consumerId;
 
-    private double price;
+    private int price;
 
     private int remainedContractMonths;
 
@@ -11,7 +11,7 @@ public final class ContractOutput {
     }
 
     public ContractOutput(final int consumerId,
-                          final double price,
+                          final int price,
                           final int remainedContractMonths) {
         this.consumerId = consumerId;
         this.price = price;
@@ -26,11 +26,11 @@ public final class ContractOutput {
         this.consumerId = consumerId;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(final double price) {
+    public void setPrice(final int price) {
         this.price = price;
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 public final class DistributorOutput {
     private int id;
 
-    private double budget;
+    private int budget;
 
     private boolean isBankrupt;
 
@@ -15,7 +15,7 @@ public final class DistributorOutput {
     }
 
     public DistributorOutput(final int id,
-                             final double budget,
+                             final int budget,
                              final boolean isBankrupt,
                              final List<ContractOutput> contracts) {
         this.id = id;
@@ -32,11 +32,11 @@ public final class DistributorOutput {
         this.id = id;
     }
 
-    public double getBudget() {
+    public int getBudget() {
         return budget;
     }
 
-    public void setBudget(final double budget) {
+    public void setBudget(final int budget) {
         this.budget = budget;
     }
 

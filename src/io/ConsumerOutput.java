@@ -5,14 +5,14 @@ public final class ConsumerOutput {
 
     private boolean isBankrupt;
 
-    private double budget;
+    private int budget;
 
     public ConsumerOutput() {
     }
 
     public ConsumerOutput(final int id,
                           final boolean isBankrupt,
-                          final double budget) {
+                          final int budget) {
         this.id = id;
         this.isBankrupt = isBankrupt;
         this.budget = budget;
@@ -34,11 +34,11 @@ public final class ConsumerOutput {
         isBankrupt = bankrupt;
     }
 
-    public double getBudget() {
+    public int getBudget() {
         return budget;
     }
 
-    public void setBudget(final double budget) {
+    public void setBudget(final int budget) {
         this.budget = budget;
     }
 
