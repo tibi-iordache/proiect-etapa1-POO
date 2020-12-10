@@ -203,31 +203,38 @@ public final class ExecuteTurns {
 
             // compute total cost for distr
             for (Distributor it : distributors) {
-                double totalCost = 0d;
-                if (it.getContractList() == null) {
-                    totalCost = it.getInfrastructureCost();
-                } else {
-                    totalCost = it.getInfrastructureCost()
-                            + it.getProductionCost() * it.getContractList().size();
-                }
+                if (!it.isBankrupt()) {
+                    double totalCost = 0d;
 
-                // new budget
-                it.setBudget(Math.round(it.getBudget() - totalCost));
-
-                Iterator<Contract> contractsIterator = it.getContractList().iterator();
-
-                while (contractsIterator.hasNext()) {
-                    Contract current = contractsIterator.next();
-
-                    if (consumers.get(current.getConsumerId()).isBankrupt()) {
-                        contractsIterator.remove();
+                    if (it.getContractList() == null) {
+                        totalCost = it.getInfrastructureCost();
+                    } else {
+                        totalCost = it.getInfrastructureCost()
+                                + it.getProductionCost() * it.getContractList().size();
                     }
-                }
 
-                // the consumers from bankrupt distr should look for new dist
-                if (it.isBankrupt()) {
-                    for (Contract c : it.getContractList()) {
-                        consumers.get(c.getConsumerId()).setContract(null);
+                    // new budget
+                    it.setBudget(Math.round(it.getBudget() - totalCost));
+
+                    if (it.getBudget() < 0) {
+                        it.setBankrupt(true);
+                    }
+
+                    Iterator<Contract> contractsIterator = it.getContractList().iterator();
+
+                    while (contractsIterator.hasNext()) {
+                        Contract current = contractsIterator.next();
+
+                        if (consumers.get(current.getConsumerId()).isBankrupt()) {
+                            contractsIterator.remove();
+                        }
+                    }
+
+                    // the consumers from bankrupt distr should look for new dist
+                    if (it.isBankrupt()) {
+                        for (Contract c : it.getContractList()) {
+                            consumers.get(c.getConsumerId()).setContract(null);
+                        }
                     }
                 }
             }
