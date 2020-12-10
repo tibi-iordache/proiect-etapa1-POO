@@ -98,7 +98,10 @@ public final class ExecuteTurns {
                     if (consumer.getContract() != null) {
                         if (consumer.getContract().getRemainedContractMonths() == 0) {
                             // requires new contract
-
+                            if (consumer.isInDebt() && consumer.getBudget() < consumer.getContract().getPrice()) {
+                                consumer.setBankrupt(true);
+                                continue;
+                            }
                             // first remove the old contract
                             distributors.get(consumer.getContract().getDistributorId())
                                     .getContractList().remove(consumer.getContract());
@@ -125,7 +128,14 @@ public final class ExecuteTurns {
                                         .floor(1.2 * consumer.getContract().getPrice()))
                                         + consumer.getContract().getPrice();
 
-                                consumer.getContract().setPrice(Math.round(debtPrice));
+                                Contract newContract = new Contract(consumer.getId(),
+                                        bestDistr.getId(),
+                                        debtPrice,
+                                        bestDistr.getContractLength() - 1);
+
+                                consumer.setContract(newContract);
+
+                                bestDistr.getContractList().add(newContract);
 
                                 consumer.setInDebt(true);
                             } else {
@@ -160,6 +170,10 @@ public final class ExecuteTurns {
                             consumer.getContract().setPrice(Math.round(debtPrice));
 
                             consumer.setInDebt(true);
+
+                            consumer.getContract()
+                                    .setRemainedContractMonths(consumer
+                                            .getContract().getRemainedContractMonths() - 1);
                         }
                     } else {
                         // consumer requires a new contract
@@ -176,10 +190,10 @@ public final class ExecuteTurns {
                             bestDistr.getContractList().add(newContract);
 
                             consumer.setBudget(Math.round(consumer.getBudget()
-                                    - bestDistr.getContractPrice()));
+                                    - consumer.getContract().getPrice()));
 
                             bestDistr.setBudget(Math.round(bestDistr.getBudget()
-                                    + bestDistr.getContractPrice()));
+                                    + consumer.getContract().getPrice()));
                         } else {
                             // he will be put in debt
                             double debtPrice = Math.round(Math
