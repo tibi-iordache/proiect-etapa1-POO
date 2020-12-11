@@ -41,13 +41,4 @@ public final class ConsumerOutput {
     public void setBudget(final int budget) {
         this.budget = budget;
     }
-
-    @Override
-    public String toString() {
-        return "ConsumerOutput{" +
-                "id=" + id +
-                ", isBankrupt=" + isBankrupt +
-                ", budget=" + budget +
-                '}';
-    }
 }

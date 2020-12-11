@@ -37,7 +37,7 @@ public final class Main {
         for (Consumer it : consumers) {
             ConsumerOutput c = new ConsumerOutput(it.getId(),
                                                 it.isBankrupt(),
-                                                (int)it.getBudget());
+                                                (int) it.getBudget());
 
             consumerOutputs.add(c);
         }
@@ -58,14 +58,14 @@ public final class Main {
             }
 
             DistributorOutput d = new DistributorOutput(it.getId(),
-                                                        (int)it.getBudget(),
+                                                        (int) it.getBudget(),
                                                         it.isBankrupt(),
                                                         c);
 
             distributorOutputs.add(d);
         }
 
-        System.out.println(args[0]);
+//        System.out.println(args[0]);
 
         Output out = new Output(consumerOutputs, distributorOutputs);
 

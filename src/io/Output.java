@@ -31,12 +31,4 @@ public final class Output {
     public void setDistributors(final List<DistributorOutput> distributors) {
         this.distributors = distributors;
     }
-
-    @Override
-    public String toString() {
-        return "Output{" +
-                "consumers=" + consumers +
-                ", distributors=" + distributors +
-                '}';
-    }
 }

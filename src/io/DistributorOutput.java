@@ -55,14 +55,4 @@ public final class DistributorOutput {
     public void setContracts(final List<ContractOutput> contracts) {
         this.contracts = contracts;
     }
-
-    @Override
-    public String toString() {
-        return "DistributorOutput{" +
-                "id=" + id +
-                ", budget=" + budget +
-                ", isBankrupt=" + isBankrupt +
-                ", contracts=" + contracts +
-                '}';
-    }
 }

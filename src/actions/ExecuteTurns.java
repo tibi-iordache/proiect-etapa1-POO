@@ -83,65 +83,119 @@ public final class ExecuteTurns {
 
             Distributor bestDistr = null;
 
-            if (distributors.stream().min(Comparator.comparing(Distributor::getContractPrice))
-                                                                        .isPresent()) {
+            if (distributors.stream().filter(distributor -> !distributor.isBankrupt())
+                    .min(Comparator.comparing(Distributor::getContractPrice))
+                    .isPresent()) {
                 bestDistr = distributors.stream()
                         .filter(distributor -> !distributor.isBankrupt()).min(Comparator
-                                                .comparing(Distributor::getContractPrice)).get();
+                                .comparing(Distributor::getContractPrice)).get();
             }
 
             // each consumer should now choose a contract
             for (Consumer consumer : consumers) {
                 if (!consumer.isBankrupt()) {
-                    consumer.setBudget(Math.round(consumer.getBudget() + consumer.getMonthlyIncome()));
+                    consumer.setBudget(Math.round(consumer.getBudget()
+                            + consumer.getMonthlyIncome()));
 
                     if (consumer.getContract() != null) {
                         if (consumer.getContract().getRemainedContractMonths() == 0) {
                             // requires new contract
-                            if (consumer.isInDebt() && consumer.getBudget() < consumer.getContract().getPrice()) {
-                                consumer.setBankrupt(true);
-                                continue;
-                            }
-                            // first remove the old contract
-                            distributors.get(consumer.getContract().getDistributorId())
-                                    .getContractList().remove(consumer.getContract());
-
-                            if (consumer.getBudget() >= bestDistr.getContractPrice()) {
-                                // sign the new contract
-                                Contract newContract = new Contract(consumer.getId(),
-                                        bestDistr.getId(),
-                                        bestDistr.getContractPrice(),
-                                        bestDistr.getContractLength() - 1);
-
-                                consumer.setContract(newContract);
-
-                                bestDistr.getContractList().add(newContract);
-
-                                consumer.setBudget(Math.round(consumer.getBudget()
-                                        - bestDistr.getContractPrice()));
-
-                                bestDistr.setBudget(Math.round(bestDistr.getBudget()
-                                        + bestDistr.getContractPrice()));
-                            } else if (!consumer.isInDebt()) {
-                                // he will be put in debt
+                            if (consumer.isInDebt()) {
                                 double debtPrice = Math.round(Math
                                         .floor(1.2 * consumer.getContract().getPrice()))
                                         + consumer.getContract().getPrice();
 
-                                Contract newContract = new Contract(consumer.getId(),
-                                        bestDistr.getId(),
-                                        debtPrice,
-                                        bestDistr.getContractLength() - 1);
+                                int oldDistributorId = consumer.getContract().getDistributorId();
 
-                                consumer.setContract(newContract);
+                                if (consumer.getBudget() >= (bestDistr.getContractPrice()
+                                                                + debtPrice)) {
+                                    // first remove the old contract
+                                    distributors.get(consumer.getContract().getDistributorId())
+                                            .getContractList().remove(consumer.getContract());
 
-                                bestDistr.getContractList().add(newContract);
+                                    // sign the new contract
+                                    Contract newContract = new Contract(consumer.getId(),
+                                            bestDistr.getId(),
+                                            bestDistr.getContractPrice(),
+                                            bestDistr.getContractLength() - 1);
 
-                                consumer.setInDebt(true);
+                                    consumer.setContract(newContract);
+
+                                    bestDistr.getContractList().add(newContract);
+
+                                    consumer.setBudget(Math.round(consumer.getBudget()
+                                            - bestDistr.getContractPrice() - debtPrice));
+
+                                    bestDistr.setBudget(bestDistr.getBudget()
+                                            + bestDistr.getContractPrice());
+
+                                    // pay the debt to the old dist
+                                    distributors.get(oldDistributorId)
+                                            .setBudget(distributors.get(oldDistributorId).getBudget()
+                                            + debtPrice);
+
+                                    consumer.setInDebt(false);
+                                } else {
+                                    consumer.setBankrupt(true);
+                                }
                             } else {
-                                // consumer is in debt already => bankrupt
+                                // he is not in debt, can make new contract
+                                // first remove the old contract
+                                distributors.get(consumer.getContract().getDistributorId())
+                                        .getContractList().remove(consumer.getContract());
 
-                                // remove any contract at the end
+                                if (consumer.getBudget() >= bestDistr.getContractPrice()) {
+                                    // sign the new contract
+                                    Contract newContract = new Contract(consumer.getId(),
+                                            bestDistr.getId(),
+                                            bestDistr.getContractPrice(),
+                                            bestDistr.getContractLength() - 1);
+
+                                    consumer.setContract(newContract);
+
+                                    bestDistr.getContractList().add(newContract);
+
+                                    consumer.setBudget(Math.round(consumer.getBudget()
+                                            - bestDistr.getContractPrice()));
+
+                                    bestDistr.setBudget(Math.round(bestDistr.getBudget()
+                                            + bestDistr.getContractPrice()));
+                                } else {
+                                    // make contract in debt
+                                    Contract newContract = new Contract(consumer.getId(),
+                                            bestDistr.getId(),
+                                            bestDistr.getContractPrice(),
+                                            bestDistr.getContractLength() - 1);
+
+                                    consumer.setContract(newContract);
+
+                                    bestDistr.getContractList().add(newContract);
+
+                                    consumer.setInDebt(true);
+                                }
+                            }
+                        } else if (consumer.isInDebt()) {
+                            double debtPrice = Math.round(Math
+                                    .floor(1.2 * consumer.getContract().getPrice()))
+                                    + consumer.getContract().getPrice();
+
+                            if (consumer.getBudget() >= debtPrice) {
+                                // pay the debt
+                                consumer.setBudget(Math.round(consumer.getBudget()
+                                        - debtPrice));
+
+                                consumer.getContract()
+                                        .setRemainedContractMonths(consumer
+                                                .getContract().getRemainedContractMonths() - 1);
+
+                                int distributorId = consumer.getContract().getDistributorId();
+                                distributors.get(distributorId)
+                                        .setBudget(Math.round(distributors
+                                                .get(distributorId).getBudget()
+                                                + debtPrice));
+
+                                consumer.setInDebt(false);
+                            } else {
                                 consumer.setBankrupt(true);
                             }
                         } else if (consumer.getBudget() >= consumer.getContract().getPrice()) {
@@ -155,20 +209,13 @@ public final class ExecuteTurns {
                                             .getContract().getRemainedContractMonths() - 1);
 
                             int distributorId = consumer.getContract().getDistributorId();
+
                             distributors.get(distributorId)
-                                    .setBudget(Math.round(distributors.get(distributorId).getBudget()
-                                            + consumer.getContract().getPrice()));
+                                    .setBudget(distributors.get(distributorId).getBudget()
+                                            + consumer.getContract().getPrice());
 
-                        } else if (consumer.isInDebt()) {
-                            consumer.setBankrupt(true);
                         } else {
-                            // debt
-                            double debtPrice = Math.round(Math
-                                    .floor(1.2 * consumer.getContract().getPrice()))
-                                    + consumer.getContract().getPrice();
-
-                            consumer.getContract().setPrice(Math.round(debtPrice));
-
+                            // he doesnt have money, put him in debt
                             consumer.setInDebt(true);
 
                             consumer.getContract()
@@ -196,13 +243,9 @@ public final class ExecuteTurns {
                                     + consumer.getContract().getPrice()));
                         } else {
                             // he will be put in debt
-                            double debtPrice = Math.round(Math
-                                    .floor(1.2 * bestDistr.getContractPrice()))
-                                    + bestDistr.getContractPrice();
-
                             Contract newContract = new Contract(consumer.getId(),
                                     bestDistr.getId(),
-                                    debtPrice,
+                                    bestDistr.getContractPrice(),
                                     bestDistr.getContractLength() - 1);
 
                             consumer.setContract(newContract);
@@ -212,7 +255,6 @@ public final class ExecuteTurns {
                         }
                     }
                 }
-
             }
 
             // compute total cost for distr
@@ -252,6 +294,15 @@ public final class ExecuteTurns {
                     }
                 }
             }
+//            System.out.println("Round= " + i);
+//
+//            for (Consumer it : consumers) {
+//                System.out.println("id=" + it.getId() + " - " + it.getBudget());
+//            }
+//
+//            for (Distributor it : distributors) {
+//                System.out.println("id_di = " + it.getId() + "- "+ it.getBudget());
+//            }
         }
     }
 
