@@ -1,12 +1,24 @@
 package utils;
 
 public final class Contract {
+    /*
+    * The id of the consumer that signed the contract
+    * */
     private int consumerId;
 
+    /*
+    * The id of the distributor that signed the contract
+    * */
     private int distributorId;
 
+    /*
+    * The price of the contract
+    * */
     private double price;
 
+    /*
+    * The length of the contract
+    * */
     private int remainedContractMonths;
 
     public Contract() {

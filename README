@@ -1,1 +1,58 @@
 Iordache Tiberiu-Mihai 322CD
+
+Structura fisiere:
+    pachet io:
+        Contine clasele de input si output, cat si clasa Loader ce incarca informatiile in aceste
+        clase.
+
+    pachet utils:
+        Contine o clasa Constants cu toate constantele folosite in proiect si clasa Contract
+        necesara pentru distribuitori si consumatori.
+
+    pachet factory:
+        Contine clasa factory ce implementeaza design pattern-ul singleton imbinat cu factory.
+
+    pachet entities:
+        Contine toate entitatile care participa in simulare.
+
+    pachet actons:
+        Contine clasa Simulator cu toate metodele necesare pentru rularea rundelor simularii.
+
+
+    Pentru citirea datelor din fisiere am creeat clase ce au campuri care se mapeaza 1:1 la cele
+din fisierul json de input, dupa care m-am folosit de object mapper pentru a le popula. Analog
+pentru scrierea rezultatelor in fisierul de iesire.
+
+    Pentru implementarea simularii am creeat clase custom care au si alte campuri utile.
+    Pentru a instantia aceste clase am folosit design pattern-ul factory, imbinat cu singleton.
+Astfel, fiecare clasa custom este extinsa din clasa de baza Entity, iar factory-ul imi va genera
+o noua instanta in functie de tipul de instanta ceruta(deocamdata doar consumer sau input). Cum este
+nevoie doar de un factory, acesta a fost construit dupa design-ul de singleton pentru a accesa mereu
+un singur factory in tot proiectul. Avantajele folosirii acestor design-uri este ca daca in etapa 2
+se vor adauga entitati noi, singura modificare care trebuie facuta in cod este in cadrul clasei
+factory, adaugand case-uri noi in switch.
+
+    Flow-ul simularii:
+        Odata citite datele din input, acestea sunt parsate catre factory pentru a creea entitati
+noi si a popula arraylist-uri de consumatori si distribuitori. Dupa aceea se vor efectua urmatorii
+pasi:
+    - se vor actualiza costurile fiecarui distribuitor pe baza update-urilor din input sau se vor
+      adauga consumeri noi
+
+    - fiecare distribuitor isi va calcula pretul contractului pentru runda curenta pe baza numarului
+      de consumatori
+
+    - consumatori primesc salariul si isi actualizeza contractul in functie de buget si status
+
+    - distribuitorii isi platesc cheluielile lunare
+
+
+Feedback:
+    Enuntul temei mi s-a parut destul de abstract, a fost nevoie sa verific forumul pentru a
+    intelege pe deplin cerinta.
+
+    Ar fi fost mai ok daca fisierele de out nu erau sterse automat de catre checker, ar fi redus
+    timpul de verificare a greselilor.
+
+    Conceptul temei in sine mi-a placut, astept sa vad ce modificari vor fi aduse in etapa 2! :)
+

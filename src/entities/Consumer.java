@@ -3,16 +3,27 @@ package entities;
 import utils.Contract;
 
 public final class Consumer extends Entity {
+    /*
+    * Consumer's monthlyIncome
+    * */
     private double monthlyIncome;
 
+    /*
+    * Consumer's current contract
+    * */
     private Contract contract;
 
+    /*
+    * Consumer's debt status
+    * */
     private boolean isInDebt;
 
+    /*
+    * Consumer's bankrupt status
+    * */
     private boolean isBankrupt;
 
     public Consumer() {
-
     }
 
     public Consumer(final int id,

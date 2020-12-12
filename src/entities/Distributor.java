@@ -1,20 +1,37 @@
 package entities;
 
 import utils.Contract;
-
 import java.util.ArrayList;
 
 public final class Distributor extends Entity {
+    /*
+    * The length of the distributor's contract
+    * */
     private int contractLength;
 
+    /*
+    * Distributor's infrastructure cost
+    * */
     private double infrastructureCost;
 
+    /*
+    * Distributor's production cost
+    * */
     private double productionCost;
 
+    /*
+    * Distributor's current round contract price
+    * */
     private double contractPrice;
 
+    /*
+    * List that contains all the distributor's contracts
+    * */
     private ArrayList<Contract> contractList;
 
+    /*
+    * Distributor's bankrupt status
+    * */
     private boolean isBankrupt;
 
     public Distributor() {

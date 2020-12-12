@@ -3,8 +3,14 @@ package io;
 import java.util.List;
 
 public final class Output {
+    /*
+    * List that contains each Consumer data after the simulation
+    * */
     private List<ConsumerOutput> consumers;
 
+    /*
+    * List that contains each Distributor data after the simulation
+    * */
     private List<DistributorOutput> distributors;
 
     public Output() {

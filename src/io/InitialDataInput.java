@@ -3,8 +3,14 @@ package io;
 import java.util.List;
 
 public final class InitialDataInput {
+    /*
+    * The consumers given in the input
+    * */
     private List<ConsumerInput> consumers;
 
+    /*
+    * The distributors given in the input
+    * */
     private List<DistributorInput> distributors;
 
     public InitialDataInput() {

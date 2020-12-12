@@ -8,7 +8,6 @@ public final class CostChangesInput {
     private double productionCost;
 
     public CostChangesInput() {
-
     }
 
     public CostChangesInput(final int id,

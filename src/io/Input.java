@@ -3,14 +3,22 @@ package io;
 import java.util.List;
 
 public final class Input {
+    /*
+    * The numbers of rounds for the simulation
+    * */
     private int numberOfTurns;
 
+    /*
+    * The initial data given
+    * */
     private InitialDataInput initialData;
 
+    /*
+    * The updates given for each round
+    * */
     private List<MonthlyUpdatesInput> monthlyUpdates;
 
     public Input() {
-
     }
 
     public Input(final int numberOfTurns,

@@ -3,12 +3,17 @@ package io;
 import java.util.List;
 
 public final class MonthlyUpdatesInput {
+    /*
+    * New consumers given for each round
+    * */
     private List<ConsumerInput> newConsumers;
 
+    /*
+    * Cost changes given for each round
+    * */
     private List<CostChangesInput> costsChanges;
 
     public MonthlyUpdatesInput() {
-
     }
 
     public MonthlyUpdatesInput(final List<ConsumerInput> newConsumers,
